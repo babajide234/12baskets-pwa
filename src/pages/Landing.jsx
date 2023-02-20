@@ -11,7 +11,7 @@ const Landing = () => {
         <div className=" flex">
             <Buttons
                 type={'default'}
-                to={''}
+                to={'/shop'}
             >Get Started</Buttons>
         </div>
     </div>
