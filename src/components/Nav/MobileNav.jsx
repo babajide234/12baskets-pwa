@@ -13,7 +13,7 @@ import {
  } from 'react-icons/vsc';
 const MobileNav = () => {
   return (
-    <div className=" absolute bottom-0 left-0 py-8 px-10 w-full bg-default">
+    <div className=" fixed bottom-0 left-0 px-10 py-2 w-full bg-default">
         <ul className=" flex justify-between">
             <li className=""><Link className=" text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center"><TiHome/></Link></li>
             <li className=""><Link className=" text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center"><TiHeartOutline/></Link></li>

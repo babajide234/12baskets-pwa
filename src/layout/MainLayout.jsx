@@ -7,7 +7,7 @@ const MainLayout = () => {
   return (
     <div className="relative h-screen w-full px-10 py-14">
         <TopNav/>
-        <div className=" mt-3 h-full py-10">
+        <div className=" mt-3 h-screen overflow-y-scroll py-10">
             <Outlet/>
         </div>
         <MobileNav/>
