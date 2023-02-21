@@ -7,7 +7,7 @@ import { Tab, TabPanel } from '../components/Tab/Tab'
 const Shop = () => {
   return (
    <>
-        <h1 className=" text-4xl leading-10 font-bold mb-10 w-44">12Baskets Menu</h1>
+        <h1 className=" text-4xl leading-10 font-bold mb-10 w-11/12 ml-4">12Baskets Menu</h1>
         <SearchInput/>
         <Tab>
             <TabPanel title="Food">

@@ -5,9 +5,9 @@ import TopNav from '../components/Nav/TopNav'
 
 const MainLayout = () => {
   return (
-    <div className="relative h-screen w-full px-10 py-14">
+    <div className="relative h-screen w-full">
         <TopNav/>
-        <div className=" mt-3 h-screen overflow-y-scroll py-10">
+        <div className=" mt-14 min:h-screen py-10 flex flex-col">
             <Outlet/>
         </div>
         <MobileNav/>

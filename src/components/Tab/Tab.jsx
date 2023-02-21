@@ -4,8 +4,8 @@ export const Tab = ({ children }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="w-full mt-10">
-      <div className="flex ml-12">
+    <div className=" w-full mt-10">
+      <div className="flex">
         {children.map((child, index) => (
           <button
             key={index}

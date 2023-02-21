@@ -17,7 +17,7 @@ export const AuthInputs = ({placeholder, type}) => {
 
 export const SearchInput =()=>{
     return (
-        <div className=" flex justify-between items-center rounded-full w-full bg-gray-50  px-5 py-3 ">
+        <div className=" flex justify-between items-center rounded-full w-11/12 mx-auto bg-gray-50  px-5 py-3 ">
             <span className=" text-2xl">
                 <FiSearch/>
             </span>
