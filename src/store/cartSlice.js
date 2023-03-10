@@ -33,3 +33,5 @@ const useCartStore = create( persist(
         storage: createJSONStorage(() => sessionStorage)
     }
 ));
+
+export default useCartStore;
