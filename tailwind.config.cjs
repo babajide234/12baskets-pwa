@@ -11,7 +11,7 @@ module.exports = {
         'auth-bg': "url('./src/assets/bg.png')",
       },
       colors: {
-        'default':'#FFFFFF',
+        'default':'#F5F5F8',
         'dark':'#000000',
         'primary':'#8C2D29'
       }, 

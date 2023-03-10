@@ -1,5 +1,7 @@
-import React from 'react'
+import { motion } from 'framer-motion';
+import React, {useState} from 'react'
 import { FiSearch } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const AuthInputs = ({placeholder, type}) => {
   return (
@@ -16,16 +18,43 @@ export const AuthInputs = ({placeholder, type}) => {
 }
 
 export const SearchInput =()=>{
+    const [ search, setSearch] = useState(' ');
+    const [ focus, setFocus] = useState(false);
+    let navigate = useNavigate();
+    
+    const handleFocus = (e)=>{
+        if(e.key === 'Enter'){
+            // search queary ang get the result then navigate to search page
+            console.log('data: ', search)
+        }
+
+        setFocus(true)
+    }
+
+    // const variants = {
+    //     open: {
+    //         position: ''
+    //      },
+    //     closed: { opacity: 0, x: "-100%" },
+    //   }
     return (
-        <div className=" flex justify-between items-center rounded-full w-11/12 mx-auto bg-gray-50  px-5 py-3 ">
+        <>
+        <motion.div className={`
+            flex justify-between items-center rounded-full w-5/6 mx-auto bg-[#EFEEEE] mb-4 px-5 py-3
+        `}>
             <span className=" text-2xl">
                 <FiSearch/>
             </span>
-            <input 
-                type="text" 
-                className=" w-full py-2 outline-none border-none bg-slate-50 px-3 text-2xl placeholder:text-2xl" 
-                placeholder="Search" 
-            />
-        </div>
+            <Link
+                to={'/search'} 
+                className={`
+                    w-full py-2 outline-none border-none bg-[#EFEEEE] px-3 text-2xl placeholder:text-2xl
+                    focus
+                `} 
+            ></Link>
+        </motion.div>
+
+    </>
+
     )
 }

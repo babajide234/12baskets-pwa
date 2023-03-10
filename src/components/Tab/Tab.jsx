@@ -4,8 +4,8 @@ export const Tab = ({ children }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className=" w-full mt-10">
-      <div className="flex">
+    <div className=" w-full  h-full">
+      <div className="flex w-5/6 mx-auto">
         {children.map((child, index) => (
           <button
             key={index}
@@ -19,9 +19,8 @@ export const Tab = ({ children }) => {
             {child.props.title}
           </button>
         ))}
-      </div>
-      
-      <div className=" mt-20">{children[activeTab]}</div>
+      </div>  
+      <div className=" h-full flex overflow-x-auto w-full">{children[activeTab]}</div>
     </div>
   );
 };

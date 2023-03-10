@@ -8,9 +8,13 @@ import {
 } from "react-router-dom";
 
 import router from './routes';
+import { AnimatePresence } from 'framer-motion';
+import { UserProvider } from './context/Context';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+      <UserProvider>
+        <RouterProvider router={router}/>
+      </UserProvider>
   </React.StrictMode>,
 )
