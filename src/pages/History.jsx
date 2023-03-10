@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Icon from '../assets/vector.svg'
+import Icon from '../assets/ector.svg'
 
 import EmptyPage from '../components/EmptyPage'
 const History = () => {
