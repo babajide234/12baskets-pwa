@@ -1,27 +1,61 @@
 import React from 'react'
-import {
-  BiUserCircle,
-} from 'react-icons/bi';
+import { motion } from 'framer-motion';
+
+import { BiUserCircle } from "react-icons/bi";
+import { CiStickyNote } from "react-icons/ci";
+import { FaShieldAlt } from "react-icons/fa";
 
 import {
-  BsShieldShaded
+  BsShieldShaded,
+  BsCart2,
+  BsTag,
+  BsArrowRight
 } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import useAppStore from '../../store/appSlice';
+import useUserStore from '../../store/userSlice';
+
+
 
 const Sidebar = () => {
-  return (
-    <div className=" h-screen w-full bg-primary absolute top-0 left-0 -z-10 py-24 px-10 ">
-      <div className=" h-full flex flex-col justify-between items-start">
-        <ul className=" flex flex-col ">
-          <li className=' text-lg text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 flex items-center '> <BiUserCircle/> Profile </li>
-          <li className=' text-lg text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 flex items-center '> orders</li>
-          <li className=' text-lg text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 flex items-center '>  offer and promo</li>
-          <li className=' text-lg text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 flex items-center '>  Privacy policy</li>
-          <li className=' text-lg text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 flex items-center '>  Security </li> 
-        </ul>
+  const sidebar = useAppStore(state =>  state.sidebar)
+  const toggleSidebar = useAppStore(state =>  state.toggleSidebar)
+  const logout = useUserStore(state =>  state.logout)
+  const isLoggedIn = useUserStore(state =>  state.isLoggedIn)
 
-        <button className=' text-lg text-default font-semibold'>Sign-out</button>
+  const log = ()=>{
+    logout();
+    toggleSidebar();
+  }
+  return (
+    <motion.div className={` min-h-screen w-full bg-primary absolute top-0 left-0  px-10 ${ sidebar ? '' : 'hidden -z-10'} ` }>
+      <div className=" h-screen flex flex-col justify-between items-start py-20">
+        <ul className=" flex flex-col ">
+          <li className='  text-base text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 capitalize '> 
+            <Link to='/' className=' flex items-center'>  <BiUserCircle className='mr-3 font-black text-2xl'/> Profile</Link>
+          </li>
+          <li className='  text-base text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 capitalize  '> 
+             <Link to='/' className=' flex items-center'> <BsCart2 className='mr-3 font-black text-2xl'/> orders</Link>  
+          </li>
+          <li className='  text-base text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 capitalize '>  
+             <Link to='/' className=' flex items-center' > <BsTag className='mr-3 font-black text-2xl'/> offer and promo</Link>  
+          </li>
+          <li className='  text-base text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 capitalize  '>  
+             <Link to='/' className=' flex items-center ' ><CiStickyNote className='mr-3 font-black text-2xl'/> Privacy policy</Link>  
+          </li>
+          <li className='  text-base text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0  capitalize '>  
+             <Link to='/' className=' flex items-center' ><FaShieldAlt className='mr-3 font-black text-2xl'/> Security</Link>  
+          </li> 
+        </ul>
+        {
+          isLoggedIn ? 
+          <button onClick={log} className=' text-base text-default font-semibold flex items-center'>Sign-out <BsArrowRight className='ml-3 font-black text-2xl'/></button>
+          :
+          <Link to='/login' onClick={toggleSidebar} className=' text-base text-default font-semibold flex items-center'>Login <BsArrowRight className='ml-3 font-black text-2xl'/> </Link>
+        }
+        
       </div>
-    </div>
+    </motion.div>
   )
 }
 
