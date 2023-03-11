@@ -3,10 +3,15 @@ import Buttons from '../buttons/Buttons'
 import { AuthInputs } from '../Inputs'
 import { Formik, ErrorMessage  } from 'formik'
 import useUserStore from '../../store/userSlice'
+import { AnimatePresence, motion } from 'framer-motion'
+
+import { BsPersonCheck } from 'react-icons/bs';
+import { Link } from 'react-router-dom'
 
 const RegisterForm = () => {
   const Loading = useUserStore(state=> state.loading);
   const register = useUserStore(state=> state.register);
+  const status = useUserStore(state=> state.registerStatus);
 
   const initialValues = {
     username: "",
@@ -31,28 +36,46 @@ const RegisterForm = () => {
 
   };
   return (
-    <div className=" flex flex-col h-full justify-between">
-        <Formik initialValues={initialValues}  onSubmit={onSubmit}>
-        {({ isSubmitting, values, handleSubmit,handleChange }) => (
-          <form action="" onSubmit={handleSubmit}>
-              <div className="">
-                  <AuthInputs name='username' onChange={handleChange} placeholder={'Username'} type={'text'}/>
-                  <AuthInputs name='email' onChange={handleChange} placeholder={'Email'} type={'email'}/>
-                  <AuthInputs name='phone' onChange={handleChange} placeholder={'Phone'} type={'text'}/>
-                  <AuthInputs name='passcode' onChange={handleChange} placeholder={'Password'} type={'password'}/>
-                  <AuthInputs name='referral_code' onChange={handleChange} placeholder={'Refferal Code'} type={'text'}/>
-              </div>
-              <button 
-                type="submit"
-                className="w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default"
+    <AnimatePresence>
+      <div className=" flex flex-col h-full justify-between">
+          { !status && (
+            <Formik initialValues={initialValues}  onSubmit={onSubmit}>
+              {({ isSubmitting, values, handleSubmit,handleChange }) => (
+                <form action="" onSubmit={handleSubmit}>
+                    <div className="">
+                        <AuthInputs name='username' onChange={handleChange} placeholder={'Username'} type={'text'}/>
+                        <AuthInputs name='email' onChange={handleChange} placeholder={'Email'} type={'email'}/>
+                        <AuthInputs name='phone' onChange={handleChange} placeholder={'Phone'} type={'text'}/>
+                        <AuthInputs name='passcode' onChange={handleChange} placeholder={'Password'} type={'password'}/>
+                        <AuthInputs name='referral_code' onChange={handleChange} placeholder={'Refferal Code'} type={'text'}/>
+                    </div>
+                    <button 
+                      type="submit"
+                      className="w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default"
+                      >
+                      { Loading ? <Spinner/> : 'Register'}
+                      {/* <Spinner/> */}
+                    </button>
+                </form>
+              )}
+            </Formik>
+          )}
+          {
+            status && (
+              <motion.div 
+                initial = {{ opacity:0, scale:0 }}
+                animate = {{ opacity:1, scale:1 }}
+                transition= {{ duration: .4 }}
+                className=" flex flex-col items-center justify-center "
               >
-                { Loading ? <Spinner/> : 'Register'}
-                {/* <Spinner/> */}
-              </button>
-          </form>
-        )}
-        </Formik>
-    </div>
+                <BsPersonCheck className=' text-9xl text-green-700' />
+                <h2 className=" text-2xl font-bold text-gray-600 mb-5">Successfully Registered</h2>
+                <Link to='' className=' font-bold text-primary border border-solid rounded-full border-primary px-4 py-2'>Go to Login</Link>
+              </motion.div>
+            )
+          }
+      </div>
+    </AnimatePresence>
   )
 }
 

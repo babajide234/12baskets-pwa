@@ -8,6 +8,7 @@ const useUserStore = create( persist(
         loading:false,
         token:'',
         details: {},
+        registerStatus: false,
         setDetails: () => {
             set(state => ({ ...state, loading: false }))
 
@@ -48,6 +49,7 @@ const useUserStore = create( persist(
                     console.log(res);
                     if( res.data.status == 'success'){
                         set(state => ({ ...state, loading: false }))
+                        set(state => ({ ...state, registerStatus: true }))
                     } else {
                         set(state => ({ ...state, loading: false }))
                     }
