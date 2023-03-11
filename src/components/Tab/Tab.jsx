@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { motion } from "framer-motion";
 
 export const Tab = ({ children }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const ref = useRef(null);
 
   return (
     <div className=" w-full  h-full">
-      <div className="flex w-5/6 mx-auto">
+      <motion.div className="flex w-5/6 mx-auto overflow-x-auto scrollbar-hide" ref={ref}>
         {children.map((child, index) => (
           <button
             key={index}
@@ -19,7 +21,7 @@ export const Tab = ({ children }) => {
             {child.props.title}
           </button>
         ))}
-      </div>  
+      </motion.div>  
       <div className=" h-full flex overflow-x-auto w-full">{children[activeTab]}</div>
     </div>
   );

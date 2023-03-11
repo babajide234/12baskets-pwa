@@ -1,9 +1,12 @@
 import React from 'react'
+import { AuthContainer } from '../components/AuthContainer'
 import LoginForm from '../components/Forms/LoginForm'
 
 const Login = () => {
   return (
-    <LoginForm/>
+    <AuthContainer>
+      <LoginForm/>
+    </AuthContainer>
   )
 }
 

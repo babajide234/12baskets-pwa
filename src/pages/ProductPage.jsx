@@ -1,7 +1,18 @@
 import React from 'react'
 import food from '../assets/food.svg';
 import Buttons from '../components/buttons/Buttons';
+import { Spinner } from '../components/Spinner';
+import useCartStore from '../store/cartSlice';
+import useProductStore from '../store/productSlice';
+import useUserStore from '../store/userSlice'
+
 const ProductPage = () => {
+  const loading = useCartStore(state=> state.loading);
+  const addToCart = useCartStore(state=> state.addToCart);
+  const getProductDetails = useProductStore(state=> state.getProductDetails);
+  const handleAddToCart = ()=>{
+    addToCart()
+  }
   return (
     <div className=" flex flex-col px-10 mb-20 pb-40">
         <div className=" flex justify-center items-center mb-10">
@@ -25,6 +36,10 @@ const ProductPage = () => {
                     type={'primary'}
                     to={'/payment'}
                 >Add to Cart</Buttons>
+                <button  
+                    type='submit' 
+                    className='w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'
+                >{loading ? <Spinner/> : "Update"}</button>
             </div>
     </div>
   )

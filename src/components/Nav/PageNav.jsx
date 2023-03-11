@@ -20,7 +20,7 @@ const PageNav = () => {
             {
                 !productId && !query  && (
                     <div className=" flex text-center items-center w-full relative">
-                        <button onClick={() => navigate(-1)} className=" text-3xl font-bold absolute left-0 top-2  text-gray-900 w-5 h-5"><MdArrowBackIosNew/></button>
+                        <button onClick={() => navigate('/shop')} className=" text-3xl font-bold absolute left-0 top-2  text-gray-900 w-5 h-5"><MdArrowBackIosNew/></button>
                         <h2 className=" capitalize flex-grow text-3xl text font-thin">{ location.pathname.replace('/','') }</h2>
                     </div>
                 )
@@ -28,7 +28,7 @@ const PageNav = () => {
             {
                 productId && !query  && (
                     <div className=" flex justify-between text-center items-center w-full relative">
-                        <button onClick={() => navigate(-1)} className=" text-xl font-bold  text-gray-900 w-5 h-5"><MdArrowBackIosNew/></button>
+                        <button onClick={() => navigate('/shop')} className=" text-xl font-bold  text-gray-900 w-5 h-5"><MdArrowBackIosNew/></button>
                         <button className=" text-xl font-boldtext-gray-900 w-5 h-5"><TiHeartOutline/></button>
                     </div>
                 )
@@ -36,7 +36,7 @@ const PageNav = () => {
             {
                 !productId && query && (
                     <div className=" flex text-center items-center w-full relative">
-                        <button onClick={() => navigate(-1)} className=" text-3xl font-bold absolute left-0 top-2  text-gray-900 w-5 h-5"><MdArrowBackIosNew/></button>
+                        <button onClick={() => navigate('/shop')} className=" text-3xl font-bold absolute left-0 top-2  text-gray-900 w-5 h-5"><MdArrowBackIosNew/></button>
                         {/* <h2 className=" capitalize flex-grow text-3xl text font-thin">{ location.pathname.replace('/','') }</h2> */}
                         <input type="text" className=" mx-auto px-4 py-2 bg-default outline-none border-none" value={query} />
                     </div>

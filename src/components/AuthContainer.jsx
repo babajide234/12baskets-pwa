@@ -6,8 +6,10 @@ export const AuthContainer = ({children}) => {
   const isLoggedIn = useUserStore(state => state.isLoggedIn)
   const navigate = useNavigate();
   
-  if(isLoggedIn){
-    return (<>{children}</>)
-  }
-  navigate('/login');
+  return (
+    <>
+      { isLoggedIn ? <Navigate to='/profile'/> : children }
+    </>
+  )
+
 }
