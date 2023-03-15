@@ -10,7 +10,7 @@ const Landing = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-      className="bg-hero-bg w-full h-screen bg-cover py-11 px-16 flex flex-col justify-between"
+        className="bg-hero-bg w-full h-screen bg-cover py-11 px-16 flex flex-col justify-between"
       >
           <div className=" w-full flex flex-col justify-center items-center">
               <img src={logo} alt="" className=" w-36 h-36" />
