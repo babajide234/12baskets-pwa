@@ -12,9 +12,9 @@ const SideLAyout = () => {
         initial={{ x: 2000 }}
         animate={{ x: 0 }}
         transition={{ duration: .7 }}
-        className=" relative h-screen w-full ">
+        className=" relative min-h-screen w-full ">
           <PageNav/>
-          <div className=" mt-14 h-screen py-10 flex flex-col bg-default">
+          <div className=" mt-14 min-h-screen py-10 flex flex-col bg-default">
               <Outlet/>
           </div>
         

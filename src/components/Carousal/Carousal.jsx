@@ -7,17 +7,7 @@ export const Carousel = ({ children }) => {
 
     return (
         <>
-            {/* // <AliceCarousel    
-            //     mouseTracking 
-            //     infinite
-            //     items={children}
-            //     autoHeight={true}
-            //     paddingLeft={70}
-            //     paddingRight={70}
-            //     disableButtonsControls={true}
-            //     disableDotsControls={true}
-            // /> */}
-            <div className=" flex overflow-x-auto">
+            <div className=" w-full flex overflow-x-auto">
                 {children}
             </div>
         </>

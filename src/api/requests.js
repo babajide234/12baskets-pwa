@@ -11,3 +11,10 @@ export const postrequest = async (url,data)=>{
 export const getrequest = async (url,data)=>{
     return instance.get(url,data)
 }
+export const upload = async (url,data)=>{
+    return instance.get(url, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+}

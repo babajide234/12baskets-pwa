@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { useParams } from 'react-router-dom';
 import food from '../assets/food.svg';
 import Buttons from '../components/buttons/Buttons';
 import { Spinner } from '../components/Spinner';
@@ -7,41 +8,83 @@ import useProductStore from '../store/productSlice';
 import useUserStore from '../store/userSlice'
 
 const ProductPage = () => {
-  const loading = useCartStore(state=> state.loading);
-  const addToCart = useCartStore(state=> state.addToCart);
-  const getProductDetails = useProductStore(state=> state.getProductDetails);
-  const handleAddToCart = ()=>{
-    addToCart()
-  }
-  return (
-    <div className=" flex flex-col px-10 mb-20 pb-40">
-        <div className=" flex justify-center items-center mb-10">
-            <img src={food} alt="" className=' w-[200px] h-[200px] rounded-full shadow-card' />
-        </div>
-        <div className="  mb-11 text-center">
-            <h2 className=" text-[28px] font-thin leading-9">Veggie tomato mix</h2>
-            <h3 className=" tex-[22px] font-bold text-primary">N1,900</h3>
-        </div>
 
-        <div className=" mb-5">
-            <h2 className=" text-[17px] font-thin mb-[6px]">Delivery info</h2>
-            <p className=" text-[15px] font-normal leading-normal">Delivered between monday aug and thursday 20 from 8pm to 91:32 pm</p>
-        </div>
-        <div className="">
-            <h2 className=" text-[17px] font-thin mb-[6px]">Return policy</h2>
-            <p className="text-[15px] font-normal leading-normal">All our foods are double checked before leaving our stores so by any case you found a broken food please contact our hotline immediately.</p>
-        </div>
-        <div className=" px-8 py-5 fixed bottom-0 left-0 w-full">
-                <Buttons
-                    type={'primary'}
-                    to={'/payment'}
-                >Add to Cart</Buttons>
-                <button  
-                    type='submit' 
-                    className='w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'
-                >{loading ? <Spinner/> : "Update"}</button>
-            </div>
-    </div>
+    const token = useUserStore(state=> state.token);
+    const loading = useCartStore(state=> state.loading);
+
+    const addToCart = useCartStore(state=> state.addToCart);
+    const getProductsDetails = useProductStore(state=> state.getProductsDetails);
+    const product = useProductStore(state=> state.product);
+
+    let { productId } = useParams()
+
+    
+    
+    useEffect(() => {
+        console.log("productId", productId)
+        const data ={
+            token: token,
+            id: productId,
+            store_id: "",
+            category_id: "",
+            sub_category_id: "",
+            location: "",
+            store: "",
+            orderBy: "", 
+            active: ""
+        }
+    
+        getProductsDetails(data)
+
+    }, [productId,getProductsDetails])
+
+    console.log("product: ",loading)
+
+    const handleAddToCart = (id)=>{
+        const data ={
+            token:token,
+            id: productId,
+            details: "",
+            quantity: 1
+        };
+
+        addToCart(data)
+    }
+
+  return (
+    <>
+        {
+            product != null ? (
+                <div className=" flex flex-col px-10 mb-20 pb-40">
+                    <div className=" flex justify-center items-center mb-10">
+                        <img src={product[0].main_photo} alt="" className=' w-[200px] h-[200px] rounded-full shadow-card' />
+                    </div>
+                    <div className="  mb-11 text-center">
+                        <h2 className=" text-[28px] font-thin leading-9">{product[0].name}</h2>
+                        <h3 className=" tex-[22px] font-bold text-primary">N {product[0].amount}</h3>
+                    </div>
+            
+                    <div className=" mb-5">
+                        <h2 className=" text-[17px] font-thin mb-[6px]">Details</h2>
+                        <p className=" text-[15px] font-normal leading-normal">{product[0].details}</p>
+                    </div>
+            
+                    <div className="">
+                        <h2 className=" text-[17px] font-thin mb-[6px]">Return policy</h2>
+                        <p className="text-[15px] font-normal leading-normal">All our foods are double checked before leaving our stores so by any case you found a broken food please contact our hotline immediately.</p>
+                    </div>
+                    <div className=" px-8 py-5 fixed bottom-0 left-0 w-full">
+                            <button  
+                                onClick={handleAddToCart}
+                                // disabled={loading}
+                                className={`w-full py-4 flex justify-center items-center text-lg font-bold rounded-full ${ loading ? 'bg-primary/50':'bg-primary'} text-default`}
+                            >{ loading ? <Spinner/> : "Add to Cart" }</button>
+                    </div>
+                </div>
+            ):(<></>)
+        }
+    </>
+    
   )
 }
 

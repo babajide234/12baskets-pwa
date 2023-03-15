@@ -7,10 +7,23 @@ import {
   FaRegHeart
 } from 'react-icons/fa';
 
-export const ProductCards = ({src,title,price}) => {
+export const ProductCards = ({src,title,price,id}) => {
   return (
-    <Link to="/product/1" className=" w-[200px] h-[250px] rounded-[30px] shadow-card relative px-6 pb-5 text-center bg-white flex flex-col justify-end ml-[34px] mt-20 mb-20">
-        <div className={`w-[160px] h-[160px] rounded-full bg-slate-500 absolute top-[-17%] left-[23px] bg-[url(${src})] bg-cover bg-center`}></div>
+    <Link to={`/product/${id}`} className=" w-[200px] h-[250px] rounded-[30px] shadow-card relative px-6 pb-5 text-center bg-white flex flex-col justify-end ml-[34px] mt-20 mb-20">
+        <div className={`w-[160px] h-[160px] overflow-hidden rounded-full  absolute top-[-17%] left-[23px] flex justify-center items-center`}>
+          <img src={src} alt="" className=" w-full h-full" />
+        </div>
+        <h2 className=" text-xl font-extralight capitalize mt-[75px]">{title}</h2>
+        <h3 className=" text-primary font-bold text-lg mt-2 ">{price}</h3>
+    </Link>
+  )
+}
+export const SearchProductCards = ({src,title,price,id}) => {
+  return (
+    <Link to={`/product/${id}`} className=" w-[150px] h-[200px] rounded-[30px] shadow-card relative px-6 pb-5 text-center bg-white flex flex-col justify-end ">
+        <div className={`w-[120px] h-[120px] overflow-hidden rounded-full  absolute top-[-20%] left-[17px] flex justify-center items-center`}>
+          <img src={src} alt="" className=" w-full h-full" />
+        </div>
         <h2 className=" text-xl font-extralight capitalize mt-[75px]">{title}</h2>
         <h3 className=" text-primary font-bold text-lg mt-2 ">{price}</h3>
     </Link>
@@ -36,35 +49,23 @@ export const CartCards = ({ item })=>{
     // TODO: implement delete functionality
   };
   return (
-    <div className=" relative">
+    <div className=" relative mb-5">
       <motion.div
-        // className="bg-white rounded-md shadow-md p-4 relative overflow-hidden"
         className=" relative w-11/12 mx-auto rounded-[20px] bg-white py-3 px-5 flex items-center"
         animate={{ x: showButtons ? -140 : 0 }}
         onPan={handleSwipe}
       >
-        {/* <div className="flex items-center">
-          <div className="w-20 h-20 bg-gray-200 rounded-md mr-4"></div>
-          <div className="flex-grow">
-            <h3 className="text-lg font-semibold">{item.name}</h3>
-            <p className="text-gray-500">{item.description}</p>
-          </div>
-          <div className="text-gray-500 text-right">
-            <span className="block font-semibold">${item.price}</span>
-            <span className="block text-sm">Qty: {item.quantity}</span>
-          </div>
-        </div> */}
         <div className="">
-          <img src={item.src} alt="" className=' w-[100px] rounded-full ' />
+          <img src={item.src} alt="" className=' w-[100px] h-[100px] rounded-full ' />
         </div>
         <div className=" pl-5">
-          <h2 className=" text-[17px] font-bold capitalize">Chairmans Platter </h2>
+          <h2 className=" text-[17px] font-bold capitalize">{item.name}</h2>
           <div className="flex ">
-            <h3 className="">#19,000</h3>
+            <h3 className="">{item.amount}</h3>
           </div>
           <div className=" absolute right-5 bottom-3 bg-primary w-fit text-white rounded-full overflow-hidden flex justify-between items-center">
             <button className=" px-3 py-[2px] text-2xl font-bold">-</button>
-            <span>1</span>
+            <span>{item.quantity}</span>
             <button className="px-3 py-[2px] text-2xl font-bold">+</button>
           </div>
         </div>

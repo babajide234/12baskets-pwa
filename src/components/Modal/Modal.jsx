@@ -9,12 +9,12 @@ export const Modal = ({ title,open,close, children}) => {
         variants={container}
         initial='hidden'
         animate={ open ? 'show':'hidden'}
-        className={`absolute w-full h-screen top-0 left-0 z-50 bg-gray-900/30 ${ open ? 'flex':'hidden' } justify-end items-end`}
+        className={`fixed w-full h-screen top-0 left-0 z-50 bg-gray-900/30 ${ open ? 'flex':'hidden' } justify-end items-end`}
     >
-        <motion.div variants={item} className=" relative pt-20 px-10 w-full h-5/6 bg-default rounded-tl-[50px] rounded-tr-[50px] flex flex-col">
+        <motion.div variants={item} className=" relative pt-20 px-5 w-full h-5/6 bg-default rounded-tl-[50px] rounded-tr-[50px] flex flex-col">
             <button onClick={close} className=" absolute right-10 top-10 text-2xl w-12 h-12 rounded-full flex justify-center items-center hover:bg-gray-300"><CgClose/></button>
-            <div className="">
-                <h2 className=" text-2xl font-semibold mb-10 text-gray-800 capitalize">{ title }</h2>
+            <h2 className=" text-2xl font-semibold mb-10 text-gray-800 capitalize">{ title }</h2>
+            <div className=" overflow-auto">
                 {children}
             </div>
         </motion.div>

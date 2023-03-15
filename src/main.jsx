@@ -14,11 +14,14 @@ import router from './routes';
 import { AnimatePresence } from 'framer-motion';
 import { UserProvider } from './context/Context';
 import Alert from './components/Alert';
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
       <UserProvider>
-        <RouterProvider router={router}/>
+        {/* <RouterProvider router={router}/> */}
+        <App/>
         <Alert/>
       </UserProvider>
   </React.StrictMode>,

@@ -27,8 +27,9 @@ const Sidebar = () => {
     logout();
     toggleSidebar();
   }
+  
   return (
-    <motion.div className={` min-h-screen w-full bg-primary absolute top-0 left-0  px-10 ${ sidebar ? '' : 'hidden -z-10'} ` }>
+    <motion.div key={'sidbar'} className={` min-h-screen w-full bg-primary absolute top-0 left-0  px-10 ${ sidebar ? '' : 'hidden -z-10'} ` }>
       <div className=" h-screen flex flex-col justify-between items-start py-20">
         <ul className=" flex flex-col ">
           <li className='  text-base text-default font-semibold py-5 border-b border-solid border-slate-50 last-of-type:border-b-0 capitalize '> 

@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { BsPersonCheck } from 'react-icons/bs';
 import { Link } from 'react-router-dom'
+import { Spinner } from '../Spinner'
 
 const RegisterForm = () => {
   const Loading = useUserStore(state=> state.loading);
@@ -41,13 +42,13 @@ const RegisterForm = () => {
           { !status && (
             <Formik initialValues={initialValues}  onSubmit={onSubmit}>
               {({ isSubmitting, values, handleSubmit,handleChange }) => (
-                <form action="" onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <div className="">
-                        <AuthInputs name='username' onChange={handleChange} placeholder={'Username'} type={'text'}/>
-                        <AuthInputs name='email' onChange={handleChange} placeholder={'Email'} type={'email'}/>
-                        <AuthInputs name='phone' onChange={handleChange} placeholder={'Phone'} type={'text'}/>
-                        <AuthInputs name='passcode' onChange={handleChange} placeholder={'Password'} type={'password'}/>
-                        <AuthInputs name='referral_code' onChange={handleChange} placeholder={'Refferal Code'} type={'text'}/>
+                        <AuthInputs value={values.username} name='username' onChange={handleChange} placeholder={'Username'} type={'text'}/>
+                        <AuthInputs value={values.email} name='email' onChange={handleChange} placeholder={'Email'} type={'email'}/>
+                        <AuthInputs value={values.phone} name='phone' onChange={handleChange} placeholder={'Phone'} type={'text'}/>
+                        <AuthInputs value={values.passcode} name='passcode' onChange={handleChange} placeholder={'Password'} type={'password'}/>
+                        <AuthInputs value={values.referral_code} name='referral_code' onChange={handleChange} placeholder={'Refferal Code'} type={'text'}/>
                     </div>
                     <button 
                       type="submit"

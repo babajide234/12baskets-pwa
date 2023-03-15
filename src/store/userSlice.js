@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { postrequest } from '../api/requests';
+import { postrequest, upload } from '../api/requests';
 
 const useUserStore = create( persist(
     (set,get) =>({
@@ -8,6 +8,7 @@ const useUserStore = create( persist(
         loading:false,
         token:'',
         details: {},
+        photo:'',
         registerStatus: false,
         setDetails: () => {
             set(state => ({ ...state, loading: false }))
@@ -61,14 +62,30 @@ const useUserStore = create( persist(
             set(state => ({ ...state, token: '' }))
             set(state => ({ ...state, details: {} }))
         },
-        updateDetails:(data) =>{
+        updateDetails:(name,data) =>{
             set(state => ({ ...state, loading: true }))
-            postrequest('account/update', data).then(
+            postrequest('account/update-'+name, data).then(
                 res => {
                     console.log(res);
                     if( res.data.status == 'success'){
                         set(state => ({ ...state, loading: false }))
                         get().setDetails();
+                    } else {
+                        set(state => ({ ...state, loading: false }))
+                    }
+                } 
+            )
+        },
+        profileUpload: (data) => {
+            set(state => ({ ...state, loading: true }))
+            console.log(data);
+            upload('misc/file-upload',data).then(
+                res => {
+                    console.log(res);
+                    if( res.data.status == 'success'){
+                        set(state => ({ ...state, loading: false }))
+                        set(state => ({ ...state, photo: res.data.file_url }))
+                       
                     } else {
                         set(state => ({ ...state, loading: false }))
                     }

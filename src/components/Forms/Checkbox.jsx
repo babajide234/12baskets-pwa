@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Checkbox = ({label}) => {
+const Checkbox = ({label, ...rest}) => {
     const [isChecked, setIsChecked] = useState(false);
 
     const handleCheck = () => {
