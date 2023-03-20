@@ -152,6 +152,9 @@ export const CartCards = ({ item }) => {
         className="relative w-11/12 mx-auto rounded-[20px] bg-white py-3 px-5 flex items-center"
         animate={{ x: showButtons ? -140 : 0 }}
         onPan={handleSwipe}
+        onDrag={handleSwipe}
+        drag="x"
+        dragConstraints={{ left: -140, right: 0 }}
         style={{ zIndex: showButtons ? 1 : 0 }}
       >
         <div className="">
