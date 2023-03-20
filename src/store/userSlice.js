@@ -14,6 +14,15 @@ const useUserStore = create( persist(
         setDetails: (data) => {
             set(state => ({ ...state, details: data }))
         },
+        getDetails: () => {
+            postrequest('account/details', {token: get().token})
+            .then((res) => {
+                console.log(res);
+                if( res.data.status == 'success'){
+                    get().setDetails(res.data.data);
+                } 
+            })
+        },
         login: async (data)=>{
             useLoaderStore.setState({ isLoading: true });
             postrequest('account/login', data)
@@ -63,7 +72,7 @@ const useUserStore = create( persist(
                     console.log(res);
                     if( res.data.status == 'success'){
                         set(state => ({ ...state, loading: false }))
-                        get().setDetails();
+                        get().getDetails()
                     } else {
                         set(state => ({ ...state, loading: false }))
                     }
@@ -83,7 +92,7 @@ const useUserStore = create( persist(
                     console.log(res);
                     if( res.data.status == 'success'){
                         set(state => ({ ...state, loading: false }))
-                        get().setDetails();
+                        get().getDetails()
                     } else {
                         set(state => ({ ...state, loading: false }))
                     }

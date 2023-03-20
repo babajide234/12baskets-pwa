@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Buttons from '../buttons/Buttons'
 import { AuthInputs } from '../Inputs'
 import { Formik, ErrorMessage  } from 'formik'
@@ -8,11 +8,14 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { BsPersonCheck } from 'react-icons/bs';
 import { Link } from 'react-router-dom'
 import { Spinner } from '../Spinner'
+import Alert from '../Alert'
+import AnimatedCheck from '../AnimationCheck'
 
 const RegisterForm = () => {
   const Loading = useUserStore(state=> state.loading);
   const register = useUserStore(state=> state.register);
   const status = useUserStore(state=> state.registerStatus);
+  const [alert, setAlert] = useState(false)
 
   const initialValues = {
     username: "",
@@ -21,6 +24,10 @@ const RegisterForm = () => {
     passcode: "",
     referral_code: ""
   };
+
+  useEffect(()=>{
+    setAlert(status)
+  },[status])
 
   const onSubmit = (values, { setSubmitting }) => {
 
@@ -36,10 +43,15 @@ const RegisterForm = () => {
     setSubmitting(false);
 
   };
+
+  
+  const closeAlert = ()=>{
+    setAlert(!alert)
+  }
+
   return (
     <AnimatePresence>
       <div className=" flex flex-col h-full justify-between">
-          { !status && (
             <Formik initialValues={initialValues}  onSubmit={onSubmit}>
               {({ isSubmitting, values, handleSubmit,handleChange }) => (
                 <form onSubmit={handleSubmit}>
@@ -53,28 +65,21 @@ const RegisterForm = () => {
                     <button 
                       type="submit"
                       className="w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default"
-                      >
-                      { Loading ? <Spinner/> : 'Register'}
-                      {/* <Spinner/> */}
+                      >Register
                     </button>
                 </form>
               )}
             </Formik>
-          )}
-          {
-            status && (
-              <motion.div 
-                initial = {{ opacity:0, scale:0 }}
-                animate = {{ opacity:1, scale:1 }}
-                transition= {{ duration: .4 }}
-                className=" flex flex-col items-center justify-center "
-              >
-                <BsPersonCheck className=' text-9xl text-green-700' />
-                <h2 className=" text-2xl font-bold text-gray-600 mb-5">Successfully Registered</h2>
-                <Link to='' className=' font-bold text-primary border border-solid rounded-full border-primary px-4 py-2'>Go to Login</Link>
-              </motion.div>
-            )
-          }
+          
+            <Alert open={alert} close={closeAlert}>
+                    <div className=" text-center">
+                      <AnimatedCheck success={true} loading={false}/>
+
+                      <h2 className=" font-bold text-xl mb-5 mt-5">Regisration Successfull</h2>
+                      <p className=" mb-10 text-gray-500">Thank you for registring on our platform please Login too Continue</p>
+                      <Buttons to='/login' type='primary'>Login</Buttons>
+                    </div>
+            </Alert>
       </div>
     </AnimatePresence>
   )

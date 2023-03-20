@@ -16,6 +16,7 @@ import AnimatedCheck from '../components/AnimationCheck'
 import { uploadFile } from '../utils/functions'
 import { upload } from '../api/requests'
 import useCartStore from '../store/cartSlice'
+import useLoaderStore from '../store/loaderSlice'
 
 const UserProfile = () => {
     const [modal, setModal] = useState(false)
@@ -36,6 +37,7 @@ const UserProfile = () => {
     const updateDetails = useUserStore(state=> state.updateDetails);
     const getorders = useCartStore(state=> state.getorders);
     const orders = useCartStore(state=> state.orders);
+    const setIsLoading = useLoaderStore(state=> state.setIsLoading);
 
     const phoneValues = {
             phone: ""
@@ -100,11 +102,15 @@ const UserProfile = () => {
     }
 
     const handleUpload = async () => {
+        setIsLoading(true)
         const response = await upload(token, currentFile);
         console.log(response);
         if(response.data.status == "success"){
             setFileUrl(response.data.file_url)
+            setIsLoading(false)
             setUploadStatus(true);
+        }else{
+            setIsLoading(false)
         }
 
     };
