@@ -34,19 +34,22 @@ const useUserStore = create( persist(
             });
         },
         register:(data)=>{
-            set(state => ({ ...state, loading: true }))
+            useLoaderStore.setState({ isLoading: true });
             
             postrequest('account/register', data).then(
                 res => {
                     console.log(res);
                     if( res.data.status == 'success'){
-                        set(state => ({ ...state, loading: false }))
                         set(state => ({ ...state, registerStatus: true }))
-                    } else {
-                        set(state => ({ ...state, loading: false }))
                     }
                 } 
             )
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                useLoaderStore.setState({ isLoading: false });
+            });
         },
         logout:() => {
             set(state => ({ ...state, isLoggedIn: false }))

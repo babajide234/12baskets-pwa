@@ -73,12 +73,11 @@ const ProductPage = () => {
                         <h2 className=" text-[17px] font-thin mb-[6px]">Return policy</h2>
                         <p className="text-[15px] font-normal leading-normal">All our foods are double checked before leaving our stores so by any case you found a broken food please contact our hotline immediately.</p>
                     </div>
-                    <div className=" px-8 py-5 fixed bottom-0 left-0 w-full">
-                            <button  
-                                onClick={handleAddToCart}
-                                // disabled={loading}
-                                className={`w-full py-4 flex justify-center items-center text-lg font-bold rounded-full ${ loading ? 'bg-primary/50':'bg-primary'} text-default`}
-                            >{ loading ? <Spinner/> : "Add to Cart" }</button>
+                    <div className=" px-8 py-5 mt-20 w-full">
+                        <button  
+                            onClick={handleAddToCart}
+                            className={`w-full py-4 flex justify-center items-center text-lg font-bold rounded-full ${ loading ? 'bg-primary/50':'bg-primary'} text-default`}
+                        >Add to Cart</button>
                     </div>
                 </div>
             ):(<></>)
