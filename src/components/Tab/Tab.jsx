@@ -6,7 +6,7 @@ export const Tab = ({ children }) => {
   const ref = useRef(null);
 
   return (
-    <div className=" w-full h-full overflow-x-auto mt-5">
+    <div className=" w-full h-full overflow-x-auto mt-5 scrollbar-hide">
       <motion.div className="flex px-5 mx-auto overflow-x-auto scrollbar-hide" ref={ref}>
       {
           Children.count(children) > 1 ? (
@@ -37,7 +37,7 @@ export const Tab = ({ children }) => {
           )
       }
       </motion.div>  
-      <div className=" h-full flex overflow-x-auto w-full">
+      <div className=" h-full flex overflow-x-auto w-full scrollbar-hide py-10">
         {
           Children.count(children) > 1 ? (
             children[activeTab]

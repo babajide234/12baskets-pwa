@@ -15,6 +15,7 @@ import Alert from '../components/Alert'
 import AnimatedCheck from '../components/AnimationCheck'
 import { uploadFile } from '../utils/functions'
 import { upload } from '../api/requests'
+import useCartStore from '../store/cartSlice'
 
 const UserProfile = () => {
     const [modal, setModal] = useState(false)
@@ -33,6 +34,8 @@ const UserProfile = () => {
     const loading = useUserStore(state=> state.loading);
     const profileUpload = useUserStore(state=> state.profileUpload);
     const updateDetails = useUserStore(state=> state.updateDetails);
+    const getorders = useCartStore(state=> state.getorders);
+    const orders = useCartStore(state=> state.orders);
 
     const phoneValues = {
             phone: ""
@@ -46,7 +49,21 @@ const UserProfile = () => {
         }
         profileUpload(data)
     },[uploadStatus])
+
+    useEffect(()=>{
+        const data = {
+            token: token,
+            reference_code: "",
+            account: "customer", 
+            from: "",
+            to: "",
+            payment_status: "", 
+            order_status: "" 
+        }
+        getorders(data)
+    },[getorders])
     
+
     const handleFileSelect = (event) => {
         setCurrentFile(event.target.files[0]);
         handleUpload()
@@ -141,7 +158,36 @@ const UserProfile = () => {
                     <span className='text-gray-800  font-bold w-6 h-6 flex justify-center items-center'><MdArrowForwardIos/></span>
                 </div>
                 <div className={`  text-center ${order ? ' h-fit py-5' : 'h-0 overflow-hidden'}`}>
-                    <h3 className="">No Orders</h3>
+                    {
+                        orders == null ? (
+                            <h3 className="">No Orders</h3>
+                        ):(
+                            orders.map((order)=>(
+                                <div className=" text-left border border-solid border-gray-200 rounded-lg overflow-hidden px-4 py-5">
+                                    <div className="flex ">
+                                        <h2 className=" font-bold mr-4">Ref: </h2>
+                                        <span className=" whitespace-pre">{order.reference_code}</span>
+                                    </div>
+                                    <div className="flex ">
+                                        <h2 className=" font-bold mr-4">Order Status: </h2>
+                                        <span className="">{order.order_status}</span>
+                                    </div>
+                                    <div className="flex ">
+                                        <h2 className=" font-bold mr-4">Payment Status: </h2>
+                                        <span className=""> {order.payment_status}</span>
+                                    </div>
+                                    <div className="flex ">
+                                        <h2 className=" font-bold mr-4">Value: </h2>
+                                        <span className="">&#x20A6; {order.amount.total}</span>
+                                    </div>
+                                    <div className="flex mt-5 ">
+                                        <button className=' capitalize bg-primary text-white rounded-md px-5 py-2'>pay</button>
+                                    </div>
+                                    <h2 className=" font-bold mr-4"></h2>
+                                </div>
+                            ))
+                        )
+                    }
                 </div>
             </CardContent>
 
@@ -168,6 +214,7 @@ const UserProfile = () => {
                     )}                                                                                                                  
                 </Formik>
             </Modal>
+
             <Modal title={'Form'} open={addressModal} close={()=>setAddressModal(!addressModal)} >
                 <Formik initialValues={{address:""}} onSubmit={onAddressSubmit}>
                     {(props)=>(

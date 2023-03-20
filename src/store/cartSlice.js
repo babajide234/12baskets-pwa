@@ -10,6 +10,7 @@ const useCartStore = create( persist(
         shiping_details: false,
         checkout:null,
         report:null,
+        orders:null,
         addToCart:(data) => {
             set(state => ({ ...state, loading: true }))
 
@@ -73,6 +74,29 @@ const useCartStore = create( persist(
                 console.log(res);
                 if( res.data.status == 'success'){
                     set(state => ({ ...state, report : res.data.data }))
+
+                }
+                set(state => ({ ...state, loading: false }))
+            })
+        },
+        removeCart:(data)=>{
+            set(state => ({ ...state, loading: true }))
+
+            postrequest('order/remove', data).then( res => {
+                console.log(res);
+                if( res.data.status == 'success'){
+                    set(state => ({ ...state, report : res.data.data }))
+
+                }
+                set(state => ({ ...state, loading: false }))
+            })
+        },
+        getorders:(data)=>{
+
+            postrequest('order/details', data).then( res => {
+                console.log(res);
+                if( res.data.status == 'success'){
+                    set(state => ({ ...state, orders : res.data.data }))
 
                 }
                 set(state => ({ ...state, loading: false }))

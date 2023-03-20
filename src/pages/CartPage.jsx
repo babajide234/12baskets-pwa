@@ -10,34 +10,30 @@ const CartPage = () => {
     const cart = useCartStore(state=> state.cart);
     const remove = useCartStore(state=> state.remove);
 
-    const item = {
-        name: 'Chairmans Platter ',
-        description:'',
-        price:'',
-        quantity:'',
-        src:img
-    }
   return (
-    <div className="">
+    <div className=" min-h-full flex flex-col justify-between">
+        <div className="">
+
         {
             cart.product && cart.product.map((item)=>(
                 <CartCards
-                    key={item.id}
-                    item={item}
+                key={item.id}
+                item={item}
                 />
-            ))
-        }
+                ))
+            }
         {
-             !cart.product && (
-
-                 <EmptyPage
-                 image={Icon}
-                 title={'No Cart yet'}
-                 subtitle={'Hit the orange button down below to Create an order'}
-                 />
-             )
-        }
-        <div className=" px-8 py-5 fixed bottom-0 left-0 w-full">
+            !cart.product && (
+                
+                <EmptyPage
+                image={Icon}
+                title={'No Cart yet'}
+                subtitle={'Hit the orange button down below to Create an order'}
+                />
+                )
+            }
+        </div>
+        <div className=" px-8 py-5 w-full">
             <Buttons
                 type={'primary'}
                 to={'/checkout'}

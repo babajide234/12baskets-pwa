@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { postrequest, upload } from '../api/requests';
+import useLoaderStore from './loaderSlice';
 
 const useUserStore = create( persist(
     (set,get) =>({
@@ -10,37 +11,27 @@ const useUserStore = create( persist(
         details: {},
         photo:'',
         registerStatus: false,
-        setDetails: () => {
-            set(state => ({ ...state, loading: false }))
-
-            postrequest('account/details', { token: get().token }).then(
-                res => {
-                    console.log(res);
-                    if( res.data.status == 'success'){
-                        set(state => ({ ...state, loading: false }))
-                        set(state => ({ ...state, details: res.data.data }))
-                    } else {
-                        set(state => ({ ...state, loading: false }))
-                    }
-                } 
-            )
+        setDetails: (data) => {
+            set(state => ({ ...state, details: data }))
         },
-        login:(data)=>{
-            set(state => ({ ...state, loading: true }))
-            
-            postrequest('account/login', data).then(
-                res => {
-                    console.log(res);
-                    if( res.data.status == 'success'){
-                        set(state => ({ ...state, loading: false }))
-                        set(state => ({ ...state, token: res.data.token }))
-                        get().setDetails();
-                        set(state => ({ ...state, isLoggedIn: true }))
-                    } else {
-                        set(state => ({ ...state, loading: false }))
-                    }
+        login: async (data)=>{
+            useLoaderStore.setState({ isLoading: true });
+            postrequest('account/login', data)
+            .then((res) => {
+                console.log(res);
+                if( res.data.status == 'success'){
+                    set(state => ({ ...state, token: res.data.token }))
+                    set(state => ({ ...state, isLoggedIn: true }))
+
+                    get().setDetails(res.data.data);
                 } 
-            )
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                useLoaderStore.setState({ isLoading: false });
+            });
         },
         register:(data)=>{
             set(state => ({ ...state, loading: true }))
@@ -63,7 +54,7 @@ const useUserStore = create( persist(
             set(state => ({ ...state, details: {} }))
         },
         updateDetails:(name,data) =>{
-            set(state => ({ ...state, loading: true }))
+            useLoaderStore.setState({ isLoading: true });
             postrequest('account/update-'+name, data).then(
                 res => {
                     console.log(res);
@@ -75,9 +66,15 @@ const useUserStore = create( persist(
                     }
                 } 
             )
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                useLoaderStore.setState({ isLoading: false });
+            });
         },
         profileUpload: (data) => {
-            set(state => ({ ...state, loading: true }))
+            useLoaderStore.setState({ isLoading: true });
             postrequest('account/upload-photo', data).then(
                 res => {
                     console.log(res);
@@ -89,6 +86,12 @@ const useUserStore = create( persist(
                     }
                 } 
             )
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                useLoaderStore.setState({ isLoading: false });
+            });
         }
     }),
     {

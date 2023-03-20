@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect , useState} from 'react'
 import {
     MdArrowBackIosNew
 } from 'react-icons/md';
@@ -9,6 +9,8 @@ import {TiHeartOutline} from 'react-icons/ti'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import useCartStore from '../../store/cartSlice';
 import useUserStore from '../../store/userSlice';
+import { motion } from 'framer-motion';
+import { headerVariants } from '../../utils/variants';
 
 const PageNav = () => {
     const location = useLocation();
@@ -21,7 +23,20 @@ const PageNav = () => {
 
     // let cartNumber = cart.product.length > 1 ? cart.product.length : 0 
 
+    const [isHeaderFixed, setIsHeaderFixed] = useState(false);
 
+    useEffect(() => {
+      function handleScroll() {
+        if (window.pageYOffset > 0) {
+          setIsHeaderFixed(true);
+        } else {
+          setIsHeaderFixed(false);
+        }
+      }
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+  
     useEffect(() => {
         const data = {
           token: token,
@@ -34,13 +49,18 @@ const PageNav = () => {
     console.log('cart',cart);
 
   return (
-    <div className=" fixed top-0 left-0 px-10 py-5 w-full bg-default z-50">
+    <motion.header
+        variants={headerVariants}
+        initial="unfixed"
+        animate={isHeaderFixed ? 'fixed' : 'unfixed'}
+        className="py-6 w-full z-30 bg-default px-4"
+    >
             {
                 !productId && !query  && (
                     <div className=" flex text-center items-center w-full relative">
-                        <button onClick={() => navigate('/shop')} className=" text-xl font-bold absolute left-0 top-2  text-gray-900 w-5 h-5"><MdArrowBackIosNew/></button>
+                        <button onClick={() => navigate('/shop')} className=" text-xl font-bold absolute left-0 top-2  text-gray-900 w-5 h-5 flex justify-center"><MdArrowBackIosNew/></button>
                         
-                        <h2 className=" capitalize flex-grow text-3xl text font-thin">{ location.pathname.replace('/','') }</h2>
+                        <h2 className=" capitalize flex-grow text-xl  font-bold">{ location.pathname.replace('/','') }</h2>
                     </div>
                 )
             }
@@ -73,7 +93,7 @@ const PageNav = () => {
                 )
             }
     
-    </div>
+    </motion.header>
   )
 }
 

@@ -5,6 +5,7 @@ import { TiHome,TiHeartOutline} from 'react-icons/ti';
 import { FiSettings } from 'react-icons/fi';
 import { CgShoppingBag } from 'react-icons/cg';
 import { RiNotification2Line } from 'react-icons/ri';
+import { BsCart2 } from 'react-icons/bs';
 
 const MobileNav = () => {
   return (
@@ -14,21 +15,40 @@ const MobileNav = () => {
               <NavLink to='/shop' 
                 className={
                   ({ isActive, isPending }) => 
-                    isActive && 'text-2xl font-bold text-primary w-14 h-14 rounded-full flex justify-center items-center'
+                     isActive ? 'text-2xl font-bold text-primary w-14 h-14 rounded-full flex justify-center items-center'
+                     :'text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center'
                 }
               ><TiHome/></NavLink>
             </li>
             <li className="">
-              <NavLink to='/saved' className=" text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center"><TiHeartOutline/></NavLink>
+              <NavLink to='/saved' 
+              className={
+                ({ isActive, isPending }) => 
+                   isActive ? 'text-2xl font-bold text-primary w-14 h-14 rounded-full flex justify-center items-center'
+                   :'text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center'
+              }
+              ><TiHeartOutline/></NavLink>
             </li>
             <li className="">
               <NavLink to='/saved' className=" text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center bg-primary text-white"><CgShoppingBag/></NavLink>
             </li>
             <li className="">
-              <NavLink to='/profile' className=" text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center"><RiNotification2Line/></NavLink>
+              <NavLink to='/cart' 
+              className={
+                ({ isActive, isPending }) => 
+                   isActive ? 'text-2xl font-bold text-primary w-14 h-14 rounded-full flex justify-center items-center'
+                   :'text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center'
+              }
+              ><BsCart2/></NavLink>
             </li>
             <li className="">
-              <NavLink to='/history' className=" text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center"><FiSettings/></NavLink>
+              <NavLink to='/profile' 
+                className={
+                  ({ isActive, isPending }) => 
+                     isActive ? 'text-2xl font-bold text-primary w-14 h-14 rounded-full flex justify-center items-center'
+                     :'text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center'
+                }
+                ><FiSettings/></NavLink>
             </li>
         </ul>
     </div>

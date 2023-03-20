@@ -29,11 +29,6 @@ const LoginForm = () => {
   });
 
   const onSubmit = (values, { setSubmitting }) => {
-    
-    // if(isLoggedIn){
-    //   navigate('/shop')
-    //   return
-    // }
 
     const data = {
       email: values.email,
@@ -57,14 +52,18 @@ const LoginForm = () => {
               
               <Link to="/" className=' text-primary text-lg font-medium'>Forgot password?</Link>
             </div>
-
-            <button 
-              type="submit"
-              className="w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default"
-            >
-              { Loading ? <Spinner/> : 'Login'}
-              {/* <Spinner/> */}
-            </button>
+            {
+              isLoggedIn ? (
+                <Link to='/shop' className='w-full py-2 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'> Back to Shop</Link>
+              ) : (
+                <button 
+                  type="submit"
+                  className="w-full py-2 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default"
+                >
+                  Login
+                </button>
+              )
+            }
           </form>
         )}
       </Formik>

@@ -38,7 +38,7 @@ const Checkout = () => {
         shipping(data)
     }
   return (
-    <div className=" flex flex-col px-[50px]  pb-40">
+    <div className=" min-h-full flex flex-col justify-between px-5">
             <h2 className=" font-thin text-4xl mb-10">Delivery</h2>
             <CardContent
                 title='Address details'
@@ -60,8 +60,8 @@ const Checkout = () => {
                 <h3 className=" text-lg font-semibold">Total</h3>
                 <h3 className=" text-2xl font-bold">{ cart.amount.total}</h3>
             </div>
-            <div className=" px-8 py-5 fixed bottom-0 left-0 w-full">
-                <button onClick={()=>setModal(!modal)} className='w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'>Shipping Info</button>
+            <div className=" px-8 py-5 w-full">
+                <button onClick={()=>setModal(!modal)} className='w-full py-2 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'>Shipping Info</button>
             </div>
             <Modal title={'Shipping Form'} open={modal} close={closeModal} >
                 {

@@ -11,7 +11,7 @@ import Skeleton from 'react-loading-skeleton'
 import { Modal } from '../components/Modal/Modal'
 import searchStore from '../store/searchSlice'
 import { Link } from 'react-router-dom'
-
+import Banner1 from '../assets/Card.png'
 const Shop = () => {
     const token = useUserStore(state => state.token)
     const getProducts = useProductStore(state => state.getProducts)
@@ -60,9 +60,12 @@ const Shop = () => {
           </div>
           <div className="flex px-5 mx-auto overflow-x-auto scrollbar-hide">
             <div className="flex">
-              <div className=" w-[280px] h-[120px] bg-slate-200 rounded-lg mr-4">2</div>
-              <div className=" w-[280px] h-[120px] bg-slate-200 rounded-lg mr-4">2</div>
-              <div className=" w-[280px] h-[120px] bg-slate-200 rounded-lg mr-4">2</div>
+              <div className=" w-[280px] h-[120px] bg-slate-200 rounded-lg mr-4">
+                <img src={Banner1} alt="" className=" w-full h-full " />
+              </div>
+              <div className=" w-[280px] h-[120px] bg-slate-200 rounded-lg mr-4">
+                <img src={Banner1} alt="" className=" w-full h-full " />
+              </div>
             </div>
           </div>
           <Tab>
