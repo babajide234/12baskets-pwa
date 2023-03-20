@@ -22,7 +22,7 @@ export const scaleDown ={
     show: {
         scale: .6,
         x: 150,
-        y: -40
+        y: -100
     },
 }
 

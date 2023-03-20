@@ -8,7 +8,7 @@ import { RiNotification2Line } from 'react-icons/ri';
 
 const MobileNav = () => {
   return (
-    <div className=" fixed bottom-0 left-0 px-10 z-30 py-2 w-full bg-default">
+    <div className=" fixed bottom-0 left-0 px-5 z-30 py-2 w-full bg-default">
         <ul className=" flex justify-between">
             <li className="">
               <NavLink to='/shop' 
