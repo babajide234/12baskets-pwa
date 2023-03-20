@@ -3,13 +3,21 @@ import { useFlutterwave } from 'flutterwave-react-v3';
 import useUserStore from '../store/userSlice';
 import useCartStore from '../store/cartSlice';
 import { CardContent } from '../components/Cards/Cards';
+import Alert from '../components/Alert';
+import Buttons from '../components/buttons/Buttons';
+import AnimatedCheck from '../components/AnimationCheck';
 
 const Paymentpage = () => {
   const token = useUserStore((state) => state.token)
   const details = useUserStore((state) => state.details)
   const cart = useCartStore((state) => state.cart)
+  const order = useCartStore((state) => state.order)
   const checkout = useCartStore((state) => state.checkout)
-  const { open , setOpen } = useState(false);
+
+  const { open , setOpen } = useState(true);
+  const [alert, setAlert] = useState(false)
+
+  const { paymentType , setPaymentType } = useState(true);
 
   const config = {
     public_key: 'FLWPUBK_TEST-e6a2fdc7c99903def336ab7d047ad6f7-X',
@@ -35,7 +43,11 @@ const Paymentpage = () => {
     const data = {
       token
     };
-    checkout(data);
+    order(data);
+  }
+
+  const handlePay = ()=>{
+
   }
 
   useEffect(() => {
@@ -45,42 +57,64 @@ const Paymentpage = () => {
         callback: (response) => {
           console.log(response);
           handleCheckout()
-          closePaymentModal() // this will close the modal programmatically
+          setAlert(!alert);
+          closePaymentModal() 
         },
         onClose: () => {
-          
+          handleCheckout()
         },
       });
     }
   }, [checkout])
+
+  const closeAlert = ()=>{
+    setAlert(!alert)
+  }
+
   // 4ffbee16a9ceb0489346de08b30b8ef0
   return (
-    <div className=" flex flex-col px-[50px]  pb-40">
+    <div className=" flex flex-col px-5  pb-40">
         <h2 className=" font-thin text-4xl mb-10">Payment</h2>
-        <CardContent>
-          <div className="flex justify-between">
-            <h2 className=" text-lg font-semibold ">Products</h2>
-            <span className="">N{cart.amount.product}</span>
-          </div>
-           <span className=" w-full block my-3 border-b border-solid "></span>
-          <div className="flex justify-between">
-            <h2 className=" text-lg font-semibold">Shipping</h2>
-            <span className="">N{cart.amount.shipping}</span>
-          </div>
-          <span className=" w-full block my-3 border-b border-solid "></span>
-          <div className="flex justify-between">
-            <h2 className=" text-lg font-semibold">Vat</h2>
-            <span className="">N{cart.amount.vat}</span>
+        <CardContent title={'Shiping Adress'}>
+          <div className=" flex flex-col ">
+            <h2 className=" font-bold text-xl">Home</h2>
+            <p className="  font-medium text-lg text-gray-500 mt-3">{details.address}</p>
           </div>
         </CardContent>
 
-        <div className=" px-8 py-5 fixed bottom-0 left-0 w-full">
+        <h2 className=" mb-5 text-xl font-thin">Payment Method</h2>
+        <div className=" mb-10">
+          <div class="flex items-center mb-4 cursor-pointer shadow-lg px-5 rounded-lg bg-white">
+            <label for="payment-option-1" class="flex w-full justify-between items-center">
+              <img src="https://flutterwave.market/_nuxt/img/logo-colored.0d02b19.svg" alt="Flutterwave" class="w-16 h-16 rounded-md mr-4"/>
+              <span class="text-lg font-medium">Card</span>
+              <input type="radio" value={paymentType} onChange={(e) => setPaymentType(e.target.value)} id="payment-option-1" name="payment-option" class=""/>
+            </label>
+          </div>
+        </div>
+
+
+        <div className="flex justify-between">
+          <h2 className=" text-sm font-semibold text-gray-600 ">Sub Total</h2>
+          <span className=""> &#x20A6; {cart.amount.product}</span>
+        </div>
+        <div className="flex justify-between">
+          <h2 className=" text-sm font-semibold text-gray-600 ">Delivery fee</h2>
+          <span className=""> &#x20A6; {cart.amount.shipping}</span>
+        </div>
+        <div className="flex justify-between">
+          <h2 className=" text-lg font-bold text-primary">Total</h2>
+          <span className="text-lg font-bold text-primary"> &#x20A6; {cart.amount.total}</span>
+        </div>
+
+        <div className=" px-8 py-5 left-0 w-full mt-10">
             <button 
               onClick={() => {
                 handleCheckout()
               }} 
+              disabled={paymentType}
               className='w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'
-              >Pay N{cart.amount.total}</button>
+              >Pay Now</button>
         </div>
 
         <div 
@@ -88,6 +122,16 @@ const Paymentpage = () => {
         >
           <div className=" w-5/6 bg-default h-3/6"></div>
         </div>
+        <Alert open={alert} close={closeAlert}>
+              <div className=" text-center">
+                <AnimatedCheck success={true} loading={false}/>
+
+                <h2 className=" font-bold text-xl mb-5 mt-5">Thanks for Order</h2>
+                <p className=" mb-10 text-gray-500">Your paymet has been confirmed, you can
+                  check the details for order.</p>
+                <Buttons to='/shop' type='primary'>Back to Home</Buttons>
+              </div>
+        </Alert>
     </div>
   )
 }

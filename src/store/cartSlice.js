@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { postrequest } from '../api/requests';
+import useLoaderStore from './loaderSlice';
 
 const useCartStore = create( persist(
     (set,get) =>({
@@ -43,7 +44,7 @@ const useCartStore = create( persist(
             })
         },
         shipping:(data) =>{
-            set(state => ({ ...state, loading: true }))
+            useLoaderStore.setState({ isLoading: true });
 
             postrequest('order/shipping', data).then( res => {
                 console.log(res);
@@ -51,21 +52,29 @@ const useCartStore = create( persist(
                     set(state => ({ ...state, shiping_details: true }))
                     
                 }
-                set(state => ({ ...state, shiping_details: true }))
-                set(state => ({ ...state, loading: false }))
             })
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                useLoaderStore.setState({ isLoading: false });
+            });
         },
         order:(data) =>{
-            set(state => ({ ...state, loading: true }))
+            useLoaderStore.setState({ isLoading: true });
 
             postrequest('order/checkout', data).then( res => {
                 console.log(res);
                 if( res.data.status == 'success'){
                     set(state => ({ ...state, checkout: res.data.reference_code }))
-
                 }
-                set(state => ({ ...state, loading: false }))
             })
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                useLoaderStore.setState({ isLoading: false });
+            });
         },
         orderReport:(data) =>{
             set(state => ({ ...state, loading: true }))

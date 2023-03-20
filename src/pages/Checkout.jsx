@@ -32,13 +32,14 @@ const Checkout = () => {
     }
     const onSubmit = (values)=>{
         const data = {
+            token:token,
             details: values.details,
             info: values.info,
         }
         shipping(data)
     }
   return (
-    <div className=" min-h-full flex flex-col justify-between px-5">
+    <div className=" min-h-full flex flex-col justify-between px-5 pb-20">
             <h2 className=" font-thin text-4xl mb-10">Delivery</h2>
             <CardContent
                 title='Address details'
@@ -65,7 +66,7 @@ const Checkout = () => {
             </div>
             <Modal title={'Shipping Form'} open={modal} close={closeModal} >
                 {
-                    shiping_details ? (
+                    !shiping_details ? (
                         <Formik initialValues={initialValues} onSubmit={onSubmit}>
                             {(props)=>(
                                 <form onSubmit={props.handleSubmit}>

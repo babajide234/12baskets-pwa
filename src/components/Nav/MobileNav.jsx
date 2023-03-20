@@ -30,7 +30,7 @@ const MobileNav = () => {
               ><TiHeartOutline/></NavLink>
             </li>
             <li className="">
-              <NavLink to='/saved' className=" text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center bg-primary text-white"><CgShoppingBag/></NavLink>
+              <NavLink to='/shop' className=" text-2xl font-bold text-gray-500 w-14 h-14 rounded-full flex justify-center items-center bg-primary text-white"><CgShoppingBag/></NavLink>
             </li>
             <li className="">
               <NavLink to='/cart' 
