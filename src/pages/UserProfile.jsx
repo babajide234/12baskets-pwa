@@ -43,15 +43,6 @@ const UserProfile = () => {
             phone: ""
     }
 
-
-    // useEffect(()=>{
-    //     const data = {
-    //         token:token,
-    //         file_url:fileUrl
-    //     }
-    //     profileUpload(data)
-    // },[uploadStatus])
-
     useEffect(()=>{
         const data = {
             token: token,
@@ -64,7 +55,17 @@ const UserProfile = () => {
         }
         getorders(data)
     },[getorders])
+
+    useEffect(()=>{
+        const data = {
+            token: token,
+            file_url:fileUrl
+        }
+
+        profileUpload(data)
+    },[uploadStatus])
     
+
 
     const handleFileSelect = (event) => {
         setCurrentFile(event.target.files[0]);
