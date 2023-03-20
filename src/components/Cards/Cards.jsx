@@ -125,7 +125,9 @@ export const SearchProductCards = ({src,title,price,id}) => {
 // }
 
 
-export const CartCards = ({ item })=>{
+
+
+export const CartCards = ({ item }) => {
   const [showButtons, setShowButtons] = useState(false);
 
   const handleSwipe = (event, info) => {
@@ -150,17 +152,7 @@ export const CartCards = ({ item })=>{
         className="relative w-11/12 mx-auto rounded-[20px] bg-white py-3 px-5 flex items-center"
         animate={{ x: showButtons ? -140 : 0 }}
         onPan={handleSwipe}
-        onTouchStart={() => setShowButtons(false)}
-        onTouchEnd={(event, info) => {
-          if (info.offset.x < -50) {
-            setShowButtons(true);
-          } else {
-            setShowButtons(false);
-          }
-        }}
-        onTouchCancel={() => setShowButtons(false)}
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
+        style={{ zIndex: showButtons ? 1 : 0 }}
       >
         <div className="">
           <img
@@ -174,7 +166,7 @@ export const CartCards = ({ item })=>{
         </div>
         <div className="pl-5">
           <h2 className="text-[17px] font-bold capitalize">{item.name}</h2>
-          <div className="flex ">
+          <div className="flex">
             <h3 className="">{item.amount}</h3>
           </div>
           <div className="absolute right-5 bottom-3 bg-primary w-fit text-white rounded-full overflow-hidden flex justify-between items-center">
@@ -188,6 +180,7 @@ export const CartCards = ({ item })=>{
         className="absolute top-0 right-5 h-full flex items-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: showButtons ? 1 : 0 }}
+        style={{ zIndex: showButtons ? 0 : -1 }}
       >
         <button
           className="flex items-center justify-center w-[45px] h-[45px] rounded-full bg-[#DF2C2C] text-white mr-5 font-bold text-xl"
@@ -205,6 +198,7 @@ export const CartCards = ({ item })=>{
     </div>
   );
 };
+
 
 export const CardContent = ({title,children})=>{
   return(
