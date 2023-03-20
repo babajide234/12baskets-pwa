@@ -71,7 +71,6 @@ const Paymentpage = () => {
     setAlert(!alert)
   }
 
-  // 4ffbee16a9ceb0489346de08b30b8ef0
   return (
     <div className=" flex flex-col px-5  pb-40">
         <h2 className=" font-thin text-4xl mb-10">Payment</h2>

@@ -42,13 +42,13 @@ const UserProfile = () => {
     }
 
 
-    useEffect(()=>{
-        const data = {
-            token:token,
-            file_url:fileUrl
-        }
-        profileUpload(data)
-    },[uploadStatus])
+    // useEffect(()=>{
+    //     const data = {
+    //         token:token,
+    //         file_url:fileUrl
+    //     }
+    //     profileUpload(data)
+    // },[uploadStatus])
 
     useEffect(()=>{
         const data = {
@@ -125,7 +125,7 @@ const UserProfile = () => {
                 <div className=" w-full flex flex-col justify-center items-center">
                     
                     <label htmlFor='profile-pic' className=' relative flex justify-center flex-col items-center mb-5'>
-                        <img src={ details.photo ? details.photo : 'https://i.pravatar.cc/300' } alt="" className=" w-[91px] h-[100px] rounded-full mb-3" />
+                        <img src={details.photo ? details.photo : '' } alt="profile picture" className=" w-[91px] h-[100px] rounded-full mb-3" />
                         <input type="file" name='profile-pic'  onChange={handleFileSelect} id='profile-pic' accept="image/*" className='hidden' />
                         <span className=' w-10 h-10 absolute bg-primary rounded-full text-white flex justify-center items-center bottom-2 right-0'><BsPencil/></span> 
                     </label>

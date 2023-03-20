@@ -19,6 +19,7 @@ const TopNav = () => {
   const cart = useCartStore((state) => state.cart);
   const token = useUserStore(state => state.token)
   const getCart = useCartStore(state=> state.getCart);
+  const details = useUserStore(state=> state.details);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
 
   useEffect(() => {
@@ -56,7 +57,9 @@ const TopNav = () => {
         <div className="w-full flex justify-between items-center">
           <button onClick={() => toggleSidebar()}  className="text-xl font-bold text-gray-500 w-8 h-8 rounded-full flex justify-center items-center"><HiMenuAlt1/></button>
           <SearchInput/>
-          <Link to='/profile' className=' w-8 h-8 rounded-full bg-slate-200'></Link>
+          <Link to='/profile' className=' w-8 h-8 rounded-full bg-slate-200 overflow-hidden'>
+            <img src={details.photo ? details.photo : ''} alt="" className="" />
+          </Link>
         </div>
     </motion.header>
   )
