@@ -11,82 +11,87 @@ import { Modal } from '../components/Modal/Modal'
 import { Spinner } from '../components/Spinner'
 import { BsArrowBarRight, BsCaretRight, BsPencil, BsTrash } from 'react-icons/bs'
 import { MdArrowForwardIos } from 'react-icons/md'
+import Alert from '../components/Alert'
+import AnimatedCheck from '../components/AnimationCheck'
+import { uploadFile } from '../utils/functions'
+import { upload } from '../api/requests'
 
 const UserProfile = () => {
     const [modal, setModal] = useState(false)
+    const [phoneModal, setPhoneModal] = useState(false)
+    const [addressModal, setAddressModal] = useState(false)
+
+    const [alert, setAlert] = useState(false)
     const [order, setOrder] = useState(false)
+
+    const [currentFile, setCurrentFile] = useState(null);
+    const [uploadStatus,setUploadStatus] = useState(false)
+    const [fileUrl,setFileUrl] = useState(null)
+
     const details = useUserStore(state=> state.details);
     const token = useUserStore(state=> state.token);
     const loading = useUserStore(state=> state.loading);
     const profileUpload = useUserStore(state=> state.profileUpload);
     const updateDetails = useUserStore(state=> state.updateDetails);
-    const [profilePic,setProfilePic] = useState('')
 
-    const initialValues = {
-            email: "",
-            phone: "",
-            username: "",
-            account_no: "",
-            bank_code: "",
-            address: "",
-            file: ""
+    const phoneValues = {
+            phone: ""
     }
+
 
     useEffect(()=>{
-        console.log("user:",details)
-    },[details])
-    
-    const onSubmit = (values)=>{
-        const data ={
-            email: "",
-            phone: values.phone,
-            username: "",
-            account_no: "",
-            bank_code: "",
-            address: values.address,
-            file: ""
+        const data = {
+            token:token,
+            file_url:fileUrl
         }
-        updateDetails(data)
+        profileUpload(data)
+    },[uploadStatus])
+    
+    const handleFileSelect = (event) => {
+        setCurrentFile(event.target.files[0]);
+        handleUpload()
+    };
+
+    const onPhoneSubmit = (values)=>{
+        const data ={
+            token:token,
+            phone: values.phone,
+        }
+        updateDetails('phone',  data)
     }
+    const onAddressSubmit = (values)=>{
+        const data ={
+            token:token,
+            address: values.address,
+        }
+        updateDetails('address',data)
+    }
+    const onNameSubmit = (values)=>{
+        const data ={
+            token:token,
+            lastname: values.lastname,
+            othernames:values.othername
+        }
+        updateDetails('name',data)
+    }
+
     const closeModal = ()=>{
         setModal(!modal)
     }
-
-    const handleUpload = ()=>{
-
-        if (!profilePic) {
-            return;
-        }
-        const formData = new FormData();
-        formData.append("token", token);
-        formData.append("file", profilePic);
-
-        profileUpload(formData);
-        setProfilePic('');
-        // updateDetails
+    const closeAlert = ()=>{
+        setAlert(!alert)
     }
 
-    const handleFileSelect = (event) => {
-        const selectedImage = event.target.files[0];
-        console.log(selectedImage);
-        if (selectedImage && selectedImage.type.includes("image")) {
-            setProfilePic(selectedImage);
-
-            const formData = new FormData();
-            formData.append("token", token);
-            formData.append("file", selectedImage);
-    
-            // profileUpload(formData);
-            console.log("image upload", formData);
-        } else {
-            setProfilePic(null);
+    const handleUpload = async () => {
+        const response = await upload(token, currentFile);
+        console.log(response);
+        if(response.data.status == "success"){
+            setFileUrl(response.data.file_url)
+            setUploadStatus(true);
         }
 
-        // if(profilePic && profilePic.type.includes("image")){
-        //     console.log('photo', profilePic);
-        //     handleUpload();
-        // }
     };
+
 
     const handleUpdate = (event)=>{
         console.log(event)
@@ -101,11 +106,13 @@ const UserProfile = () => {
                 title='Personal details'
             >
                 <div className=" w-full flex flex-col justify-center items-center">
+                    
                     <label htmlFor='profile-pic' className=' relative flex justify-center flex-col items-center mb-5'>
                         <img src={ details.photo ? details.photo : 'https://i.pravatar.cc/300' } alt="" className=" w-[91px] h-[100px] rounded-full mb-3" />
                         <input type="file" name='profile-pic'  onChange={handleFileSelect} id='profile-pic' accept="image/*" className='hidden' />
                         <span className=' w-10 h-10 absolute bg-primary rounded-full text-white flex justify-center items-center bottom-2 right-0'><BsPencil/></span> 
                     </label>
+
                     <div className=" w-full">
                         <h2 className=" font-bold text-xl">{ details.username}</h2>
 
@@ -117,24 +124,24 @@ const UserProfile = () => {
                         <span className=" w-full block my-3 border-b border-solid "></span>
                         <div className="flex justify-between">
                             <h3 className=" text-base font-normal">{ details?.phone }</h3>
-                            <span><BsPencil/></span>
+                            <button className=' w-6 h-6 rounded-full '  onClick={()=>setPhoneModal(!phoneModal)}><BsPencil/></button>
                         </div>
                         <span className=" w-full block my-3 border-b border-solid "></span>
                         <div className="flex justify-between">
                             <p className=" text-sm font-normal">{ details.address  ? details.address : "No Address"}</p>
-                            <span><BsPencil/></span>                        
+                            <button className=' w-6 h-6 rounded-full '  onClick={()=>setAddressModal(!addressModal)}><BsPencil/></button>
                         </div>
                     </div>
                 </div>
             </CardContent>
 
             <CardContent title="">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center" onClick={()=>setOrder(!order)}>
                     <h2 className="text-gray-800 text-2xl font-bold">Orders</h2>
                     <span className='text-gray-800  font-bold w-6 h-6 flex justify-center items-center'><MdArrowForwardIos/></span>
                 </div>
-                <div className={` ${order ? '' : 'hidden'}`}>
-                    
+                <div className={`  text-center ${order ? ' h-fit py-5' : 'h-0 overflow-hidden'}`}>
+                    <h3 className="">No Orders</h3>
                 </div>
             </CardContent>
 
@@ -145,21 +152,58 @@ const UserProfile = () => {
                 </div>
             </CardContent>
 
-            <Modal title={'Form'} open={modal} close={closeModal} >
-                <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            <Modal title={'Form'} open={phoneModal} close={()=>setPhoneModal(!phoneModal)} >
+                <Formik initialValues={phoneValues} onSubmit={onPhoneSubmit}>
                     {(props)=>(
                         <form onSubmit={props.handleSubmit}>
-                            <AuthInputs name="phone" placeholder={'Email'} value={props.values.email} onChange={props.handleChange} />
-                            <AuthInputs name="address" placeholder={'Address'} value={props.values.address} onChange={props.handleChange} />
+                            
+                            <AuthInputs name="phone" placeholder={'Phone'} value={props.values.phone} onChange={props.handleChange} />
+
                             <button  
                                 type='submit' 
                                 className='w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'
 
-                            >{loading ? <Spinner/> : "Update"}</button>
+                            >{false ? <Spinner/> : "Update"}</button>
                         </form>
                     )}                                                                                                                  
                 </Formik>
             </Modal>
+            <Modal title={'Form'} open={addressModal} close={()=>setAddressModal(!addressModal)} >
+                <Formik initialValues={{address:""}} onSubmit={onAddressSubmit}>
+                    {(props)=>(
+                        <form onSubmit={props.handleSubmit}>
+                            
+                            <AuthInputs name="address" placeholder={'Address'} value={props.values.address} onChange={props.handleChange} />
+
+                            <button  
+                                type='submit' 
+                                className='w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'
+
+                            >{false ? <Spinner/> : "Update"}</button>
+                        </form>
+                    )}                                                                                                                  
+                </Formik>
+            </Modal>
+
+            <Modal title={'Form'} open={modal} close={closeModal} >
+                <Formik initialValues={{lastname:"",othername:""}} onSubmit={onNameSubmit}>
+                    {(props)=>(
+                        <form onSubmit={props.handleSubmit}>
+                            <AuthInputs name="lastname" placeholder={'LastName'} value={props.values.lastname} onChange={props.handleChange} />
+                            <AuthInputs name="othername" placeholder={'Othername'} value={props.values.othername} onChange={props.handleChange} />
+                            
+                            <button  
+                                type='submit' 
+                                className='w-full py-4 flex justify-center items-center text-lg font-bold rounded-full bg-primary text-default'
+
+                            >{false ? <Spinner/> : "Update"}</button>
+                        </form>
+                    )}                                                                                                                  
+                </Formik>
+            </Modal>
+            <Alert open={alert} close={closeAlert}>
+                <AnimatedCheck success={uploadStatus} loading={loading}/>
+            </Alert>
         </div>
     </UnauthContainer>
   )

@@ -78,14 +78,12 @@ const useUserStore = create( persist(
         },
         profileUpload: (data) => {
             set(state => ({ ...state, loading: true }))
-            console.log(data);
-            upload('misc/file-upload',data).then(
+            postrequest('account/upload-photo', data).then(
                 res => {
                     console.log(res);
                     if( res.data.status == 'success'){
                         set(state => ({ ...state, loading: false }))
-                        set(state => ({ ...state, photo: res.data.file_url }))
-                       
+                        get().setDetails();
                     } else {
                         set(state => ({ ...state, loading: false }))
                     }

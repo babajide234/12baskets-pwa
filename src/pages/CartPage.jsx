@@ -22,6 +22,7 @@ const CartPage = () => {
         {
             cart.product && cart.product.map((item)=>(
                 <CartCards
+                    key={item.id}
                     item={item}
                 />
             ))

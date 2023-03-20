@@ -1,6 +1,6 @@
 import React, { useEffect} from 'react'
 import { motion } from 'framer-motion'
-import { ProductCards, SearchProductCards } from '../components/Cards/Cards'
+import { ProductCard, ProductCards, RecommendProductCard, SearchProductCards } from '../components/Cards/Cards'
 import { Carousel } from '../components/Carousal/Carousal'
 import { SearchInput } from '../components/Inputs'
 import { Tab, TabPanel } from '../components/Tab/Tab'
@@ -10,6 +10,7 @@ import useFetch from '../api/useFetch'
 import Skeleton from 'react-loading-skeleton'
 import { Modal } from '../components/Modal/Modal'
 import searchStore from '../store/searchSlice'
+import { Link } from 'react-router-dom'
 
 const Shop = () => {
     const token = useUserStore(state => state.token)
@@ -31,11 +32,10 @@ const Shop = () => {
       
         const filtered = products.filter((product) => product.category_name === categoryName);
       
-        console.log("filtered By Category", filtered);
         
         if (filtered.length > 0) {
           return filtered.map((product) => (
-            <ProductCards src={product.main_photo} title={product.name} price={`N ${product.amount} `} id={product.id} />
+            <ProductCard src={product.main_photo} title={product.name} price={`${product.amount} `} id={product.id} />
           ));
         } else {
           return (
@@ -53,12 +53,19 @@ const Shop = () => {
   return (
    <>
         <motion.div 
-            className=" pt-20 h-full"
+            className="min:h-full w-full pb-32"
         >
-            <h1 className=" text-2xl leading-10 font-bold mb-5 w-5 ml-10">12Baskets Menu</h1>
-            <SearchInput/>
-
-            <Tab>
+          <div className=" px-5">
+            <h1 className=" text-xl leading-10 font-bold mb-5">What do you want to eat today?</h1>
+          </div>
+          <div className="flex px-5 mx-auto overflow-x-auto scrollbar-hide">
+            <div className="flex">
+              <div className=" w-[280px] h-[120px] bg-slate-200 rounded-lg mr-4">2</div>
+              <div className=" w-[280px] h-[120px] bg-slate-200 rounded-lg mr-4">2</div>
+              <div className=" w-[280px] h-[120px] bg-slate-200 rounded-lg mr-4">2</div>
+            </div>
+          </div>
+          <Tab>
                 {
                     categories ? (
                         categories.map((item, index) => (
@@ -71,7 +78,17 @@ const Shop = () => {
                         <Skeleton/>
                     )
                 }
-            </Tab>
+          </Tab>
+          <div className="flex justify-between mt-10 px-5">
+            <h2 className=" text-base font-bold">Recomendation</h2>
+            <Link className=' text-primary text-sm font-semibold'>Show All</Link>
+          </div>
+          <div className="flex px-5 mx-auto overflow-x-auto scrollbar-hide mt-5">
+            <div className="flex">
+              <RecommendProductCard />
+              <RecommendProductCard />
+            </div>
+          </div>
         </motion.div>
         <Modal title="Search Result" open={searchModal} close={handleModalClose}>
           <div className=" w-full grid grid-cols-2 pt-10 gap-y-16">

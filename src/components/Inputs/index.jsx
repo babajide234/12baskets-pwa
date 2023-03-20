@@ -50,20 +50,20 @@ export const SearchInput =({...rest})=>{
         <motion.div
         >
             <motion.div 
-                className={`flex justify-between items-center rounded-full w-5/6 mx-auto bg-[#EFEEEE] mb-4 px-5 py-3
+                className={`flex justify-between items-center rounded-full w-[275px] mx-auto bg-[#EFEEEE] px-5 py-1
             `}>
-                <span className=" text-2xl">
+                <span className=" text-2xl text-gray-400">
                     <FiSearch/>
                 </span>
                 
                 <input 
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search your food"
                     value={searchTerm}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
 
-                    className="w-full py-2 outline-none border-none bg-[#EFEEEE] px-3 text-2xl placeholder:text-2xl focus"
+                    className="w-full py-2 outline-none border-none bg-[#EFEEEE] px-3 text-sm placeholder:text-sm focus"
                 />
                 
             </motion.div>

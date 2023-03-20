@@ -25,3 +25,22 @@ export const scaleDown ={
         y: -40
     },
 }
+
+export const headerVariants = {
+  fixed: {
+    position: 'fixed',
+    top: 0,
+    backgroundColor: '#fff',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    padding: '10px 0',
+    transition: { duration: 0.3 },
+  },
+  unfixed: {
+    position: 'relative',
+    top: null,
+    backgroundColor: null,
+    boxShadow: null,
+    padding: null,
+    transition: { duration: 0.3 },
+  },
+};

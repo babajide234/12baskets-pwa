@@ -14,7 +14,7 @@ export const Modal = ({ title,open,close, children}) => {
         <motion.div variants={item} className=" relative pt-20 px-5 w-full h-5/6 bg-default rounded-tl-[50px] rounded-tr-[50px] flex flex-col">
             <button onClick={close} className=" absolute right-10 top-10 text-2xl w-12 h-12 rounded-full flex justify-center items-center hover:bg-gray-300"><CgClose/></button>
             <h2 className=" text-2xl font-semibold mb-10 text-gray-800 capitalize">{ title }</h2>
-            <div className=" overflow-auto">
+            <div className=" overflow-auto mt-5">
                 {children}
             </div>
         </motion.div>
